@@ -1,0 +1,140 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Map static resources from the /public folder to the /assets URL path
+GET           /assets/*file                          controllers.Assets.versioned(path="/public", file: Asset)
+
+GET           /upload/*file                          @controllers.ApplicationController.uploadedImage(file: String)
+GET           /pkg/*file                             controllers.WebJarAssets.at(file)
+
+# ===============================================================
+# Pages
+# ===============================================================
+# Home page
+GET           /                                      @controllers.ApplicationController.index
+# ?
+GET           /signin                                @controllers.ApplicationController.signInPage
+
+POST          /signin                                @controllers.ApplicationController.signIn
+POST          /signinOrg                             @controllers.ApplicationController.signInOrg
+
+
+
+# ?
+GET           /signup                                @controllers.ApplicationController.signUpPage
+GET           /signup/success                        @controllers.ApplicationController.signUpSuccess()
+# ?
+POST          /signup                                @controllers.ApplicationController.signUp
+GET           /signout                               @controllers.ApplicationController.signOut
+
+GET           /captcha                               @controllers.ApplicationController.captcha
+GET           /forgotPasswordUser                    @controllers.ApplicationController.forgotPasswordUserPage
+GET           /forgotPasswordOrg                     @controllers.ApplicationController.forgotPasswordOrgPage
+POST          /forgotPasswordUser                    @controllers.ApplicationController.forgotPasswordUser
+POST          /forgotPasswordOrg                     @controllers.ApplicationController.forgotPasswordOrg
+GET           /event                                 @controllers.ApplicationController.event
+GET           /event/hots                            @controllers.ApplicationController.topEvents()
+GET           /event/:id                             @controllers.ApplicationController.eventView(id: Int)
+GET           /event/:id/status                      @controllers.APIController.getEventStatus(id: Int)
+POST          /event/:id/join                        @controllers.ApplicationController.joinEvent(id: Int)
+POST          /event/new                             @controllers.ApplicationController.orgAddEventTemplate()
+POST          /event/pub                             @controllers.ApplicationController.pubEvent()
+POST          /event/edit/:id                        @controllers.ApplicationController.editEvent(id: Int)
+GET           /venues/hots                           @controllers.APIController.topVenues()
+
+GET           /strategy                              @controllers.ApplicationController.strategy
+GET           /strategy/:id                          @controllers.ApplicationController.strategyBy(id: Int)
+GET           /org/signup/success                    @controllers.ApplicationController.signUpSuccess()
+POST          /org/signup                            @controllers.ApplicationController.signUpOrg
+GET           /org                                   @controllers.ApplicationController.org()
+GET           /org/:id                               @controllers.ApplicationController.orgBy(id: Int)
+GET           /org/:id/about                         @controllers.ApplicationController.orgAbout(id: Int)
+GET           /org/:id/diary                         @controllers.ApplicationController.orgDiary(id: Int)
+GET           /org/:id/review                        @controllers.ApplicationController.orgReview(id: Int)
+
+GET           /org/:id/review/:view                  @controllers.ApplicationController.orgReviewView(id: Int, view: Int)
+GET           /org/:id/notice                        @controllers.ApplicationController.orgNotice(id: Int)
+GET           /org/:id/instructor                    @controllers.ApplicationController.orgInstructor(id: Int)
+GET           /org/:id/diary/:diaryId                @controllers.ApplicationController.orgDiaryView(id: Int, diaryId: Int)
+GET           /org/:name/certificate                 @controllers.ApplicationController.findOrgCertificate(name: String)
+
+GET           /org_/home                             @controllers.ApplicationController.orgAdmin()
+GET           /org_/event                            @controllers.ApplicationController.orgAdminEvents(edit: String ?= null)
+DELETE        /org_/event/:name                      @controllers.ApplicationController.deleteEvent(name: String)
+POST          /org_/event/review                     @controllers.ApplicationController.addEventReview()
+GET           /org_/event/review                     @controllers.APIController.getEventReview()
+POST          /org_/event/:id/status                 @controllers.APIController.changeEventStatus(id: Int)
+GET           /org_/profile                          @controllers.ApplicationController.orgAdminSetting()
+POST          /org_/profile                          @controllers.ApplicationController.orgSetProfiles()
+POST          /org_/profile/certificate              @controllers.ApplicationController.addCertificate()
+DELETE        /org_/profile/certificate/:name        @controllers.ApplicationController.deletedCertificate(name: String)
+POST          /org_/profile/obj                      @controllers.ApplicationController.addObj()
+GET           /org_/password                         @controllers.ApplicationController.orgAdminPassword()
+PUT           /org_/password                         @controllers.ApplicationController.orgChangePassword()
+GET           /org_/id-verified                      @controllers.ApplicationController.orgAdminIdVerified()
+GET           /org/:name/:type/obj                   @controllers.ApplicationController.findObj(name: String,type:String)
+DELETE        /org_/obj/:name/:type                  @controllers.ApplicationController.deleteObj(name: String,type:String)
+
+POST          /org_/profile/manager/:name            @controllers.ApplicationController.orgAddManager(name: String)
+DELETE        /org_/profile/manager/:name            @controllers.ApplicationController.orgDeleteManager(name: String)
+GET           /org_/profile/manager                  @controllers.ApplicationController.findOrgManager()
+GET           /org_/venues                           @controllers.ApplicationController.orgAdminVenues()
+POST          /org_/venues                           @controllers.ApplicationController.addVenues()
+DELETE        /org_/venues/:id                       @controllers.ApplicationController.deleteVenues(id: Int)
+GET           /org_/letter                           @controllers.ApplicationController.orgAdminLetter()
+GET           /org_/counsellor                       @controllers.ApplicationController.orgAdminCounsellor()
+POST          /org_/counsellor                       @controllers.ApplicationController.orgAddCounsellor()
+GET           /org_/editcounsellor                   @controllers.ApplicationController.orgEditCounsellor(id: Int,enable: Boolean)
+GET           /org_/ueditcounsellor                  @controllers.ApplicationController.orgUEditCounsellor(id: Int,index: Int,show:Boolean)
+GET           /org_/notice                           @controllers.ApplicationController.orgAdminNotice()
+POST          /org_/notice                           @controllers.ApplicationController.orgPostNotice()
+POST          /org_/notice/:id                       @controllers.ApplicationController.changeNotice(id: Int)
+GET           /org_/notice/rm/:id                    @controllers.ApplicationController.orgDeleteNotice(id: Int)
+GET           /org_/stat                             @controllers.ApplicationController.orgAdminStatistics()
+GET           /org_/stat/more                        @controllers.ApplicationController.orgAdminStatisticsMore()
+
+GET           /school/:id                            @controllers.ApplicationController.schoolBy(id: Int)
+GET           /schooladmin                           @controllers.ApplicationController.schoolAdmin
+
+GET           /venues                                @controllers.ApplicationController.venues
+GET           /venues/:id                            @controllers.ApplicationController.venuesBy(id: Int)
+GET           /evolution                             @controllers.ApplicationController.evolution()
+GET           /_/view/:id                            @controllers.ApplicationController.userView(id: Int)
+GET           /_/favorites                           @controllers.ApplicationController.userFavorites()
+GET           /_/event                               @controllers.ApplicationController.userEvent()
+GET           /_/eventInstructor                     @controllers.ApplicationController.userEventInstructor()
+GET           /_/eventInstructorTable                @controllers.ApplicationController.userEventInstructorTable()
+GET           /_/footprint                           @controllers.ApplicationController.userFootprint()
+GET           /_/friends                             @controllers.ApplicationController.userFriends()
+GET           /_/letter                              @controllers.ApplicationController.userLetter()
+GET           /_/task                                @controllers.ApplicationController.userTask()
+GET           /_/home                                @controllers.ApplicationController.userHome()
+GET           /_/cert                                @controllers.ApplicationController.userCert()
+GET           /_/setting                             @controllers.ApplicationController.userSet()
+GET           /grow/:id                              @controllers.ApplicationController.grow(id: Int)
+
+GET           /TODO                                  @controllers.ApplicationController.TODO
+# ===============================================================
+# APIs
+# ===============================================================
+
+#GET           /api/user/activity               @controllers.APIController.userActivity
+#GET           /api/user/follow/all             @controllers.APIController.userFollowed
+# ?
+#GET           /api/event/template              @controllers.APIController.eventTemplate()
+# ?
+#DELETE        /api/event/template/:name        @controllers.APIController.deleteEventTemplate(name: String)
+
+GET           /api/org_/profiles                     @controllers.APIController.getOrgProfiles()
+PUT           /api/org_/event/:id                    @controllers.APIController.activeEvent(id: Int, active: Boolean)
+GET           /api/org_/event/:id                    @controllers.APIController.getEvent(id: Int)
+GET           /api/org_/event/pub/:id                @controllers.APIController.getPublishedEvent(id: Int)
+GET           /api/org_/counsellor                   @controllers.APIController.getCounsellor()
+
+POST          /strategy/pub                          @controllers.ApplicationController.pubStrategy()
+GET           /api/event/review                      @controllers.APIController.getEventReview()
+DELETE        /api/event/review/:id                  @controllers.APIController.deleteEventReview(id: Int)
+
+GET           /api/event/:id                         @controllers.APIController.getEventBy(id: Int)
+GET           /api/event/:id/view                   @controllers.APIController.getEventView(id: Int)
